@@ -4,7 +4,9 @@
   "description": "Final Project for Software Engineering fall 2026",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "migrate": "tsx src/migrate.ts",
+    "migrate:down": "tsx src/migrate.ts down",
+    "dev": "tsx watch src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -20,7 +22,7 @@
   "homepage": "https://github.com/OwanBerhe/wig-final-project#readme",
   "dependencies": {
     "dotenv": "^18.0.8",
-    "kysely": "^0.29.7",
+    "kysely": "^0.27.6",
     "pg": "^8.23.1"
   },
   "devDependencies": {
