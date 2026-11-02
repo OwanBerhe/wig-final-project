@@ -1,18 +1,28 @@
-import 'dotenv/config'
 import express from 'express'
-import usersRouter from './routes/users'
+import type { Request, Response, NextFunction } from 'express'
+import cors from 'cors'
+// import listingsRouter from './routes/listings'
 
 const app = express()
-const port = Number(process.env.PORT) || 3000
+const PORT = Number(process.env.PORT) || 3000
 
+app.use(cors())
 app.use(express.json())
 
-app.get('/health', (_req, res) => {
+// Everything the frontend calls lives under /api
+const api = express.Router()
+api.get('/health', (_req, res) => {
   res.json({ status: 'ok' })
 })
+// api.use('/listings', listingsRouter)
+app.use('/api', api)
 
-app.use('/users', usersRouter)
+// Catch-all error handler: always returns JSON
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err)
+  res.status(500).json({ error: err.message || 'Server error' })
+})
 
-app.listen(port, () => {
-  console.log(`Server listening on http://localhost:${port}`)
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`)
 })
