@@ -1,7 +1,7 @@
 import * as path from 'path'
 import { promises as fs } from 'fs'
-import { Migrator } from 'kysely'
-import type { Migration, MigrationProvider } from 'kysely'
+import { Migrator } from 'kysely/migration'
+import type { Migration, MigrationProvider } from 'kysely/migration'
 import { db } from './db'
 
 const migrationFolder = path.join(__dirname, 'migrations')
