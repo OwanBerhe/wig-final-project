@@ -17,6 +17,7 @@ export interface UsersTable {
   user_id: Generated<number>
   role: UserRole
   email: string
+  password_hash: string
   username: string
   location: string | null
 }
