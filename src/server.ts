@@ -8,6 +8,8 @@ import usersRouter from './routes/users'
 import searchRouter from './routes/search'
 import concertsRouter from './routes/concerts-detail'
 
+import authRouter from './routes/auth'
+
 const app = express()
 const PORT = Number(process.env.PORT) || 3000
 
@@ -26,6 +28,7 @@ api.use('/venues', venuesRouter)
 api.use('/users', usersRouter)
 api.use('/search', searchRouter)
 api.use('/concerts', concertsRouter)
+api.use('/auth', authRouter)
 
 // Catch-all error handler: always returns JSON
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
