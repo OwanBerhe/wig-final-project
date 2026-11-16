@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Detail from './pages/Detail'
 import Search from './pages/Search'
+import Chat from './pages/Chat'
 import { AuthProvider } from './AuthContext'
 
 export default function App() {
@@ -16,6 +17,8 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/search" element={<Search />} />
             <Route path="/items/:id" element={<Detail />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/chat/:id" element={<Chat />} />
           </Route>
         </Routes>
       </BrowserRouter>

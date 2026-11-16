@@ -9,24 +9,29 @@ declare global {
   }
 }
 
+// Returns the user id inside a valid token, or null. Shared by the HTTP
+// middleware below and the WebSocket server (which can't send headers).
+export function verifyToken(token: string): number | null {
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET as string) as {
+      userId?: number
+      id?: number
+    }
+    return payload.userId ?? payload.id ?? null
+  } catch {
+    return null
+  }
+}
+
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
   const header = req.headers.authorization
   if (!header || !header.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Missing token' })
   }
 
-  try {
-    const payload = jwt.verify(
-      header.slice(7),
-      process.env.JWT_SECRET as string
-    ) as { userId?: number; id?: number }
+  const id = verifyToken(header.slice(7))
+  if (!id) return res.status(401).json({ error: 'Invalid or expired token' })
 
-    const id = payload.userId ?? payload.id
-    if (!id) return res.status(401).json({ error: 'Invalid token' })
-
-    req.userId = id
-    next()
-  } catch {
-    res.status(401).json({ error: 'Invalid or expired token' })
-  }
+  req.userId = id
+  next()
 }
