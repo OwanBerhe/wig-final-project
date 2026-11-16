@@ -1,3 +1,30 @@
+import 'dotenv/config'
+import type { Request, Response, NextFunction } from 'express'
+import jwt from 'jsonwebtoken'
+import type { UserRole } from '../types/db'
+
+const secret = process.env.JWT_SECRET
+
+if (!secret) {
+  throw new Error('JWT_SECRET is not set. Add it to your .env file.')
+}
+
+export interface AuthUser {
+  user_id: number
+  role: UserRole
+}
+
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: AuthUser
+  }
+}
+
+export function signToken(user: AuthUser): string {
+  return jwt.sign({ role: user.role }, secret as string, {
+    subject: String(user.user_id),
+    expiresIn: '7d',
+  })
 import type { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 
