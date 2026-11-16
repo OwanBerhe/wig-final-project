@@ -9,6 +9,8 @@ import searchRouter from './routes/search'
 import concertsRouter from './routes/concerts-detail'
 
 import authRouter from './routes/auth'
+import conversationsRouter from './routes/conversations'
+import { attachRealtime } from './realtime'
 
 const app = express()
 const PORT = Number(process.env.PORT) || 3000
@@ -29,6 +31,7 @@ api.use('/users', usersRouter)
 api.use('/search', searchRouter)
 api.use('/concerts', concertsRouter)
 api.use('/auth', authRouter)
+api.use('/conversations', conversationsRouter)
 
 // Catch-all error handler: always returns JSON
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
@@ -36,6 +39,9 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ error: err.message || 'Server error' })
 })
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)
 })
+
+// Live chat: WebSocket server at ws://localhost:PORT/ws
+attachRealtime(server)

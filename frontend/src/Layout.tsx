@@ -16,6 +16,7 @@ export default function Layout() {
         <strong>Wig Project</strong>
         <Link to="/">Home</Link>
         <Link to="/search">Search</Link>
+        {token && <Link to="/chat">Messages</Link>}
         {token ? (
           <button onClick={onLogout}>Logout</button>
         ) : (
