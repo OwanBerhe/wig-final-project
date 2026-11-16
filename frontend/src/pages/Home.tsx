@@ -14,7 +14,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    api<Item[]>('/listings')
+    api<Item[]>('/artists')
       .then(setItems)
       .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false))
