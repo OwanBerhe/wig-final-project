@@ -2,6 +2,11 @@ import express from 'express'
 import type { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 // import listingsRouter from './routes/listings'
+import artistsRouter from './routes/artists'
+import venuesRouter from './routes/venues'
+import usersRouter from './routes/users'
+import searchRouter from './routes/search'
+import concertsRouter from './routes/concerts-detail'
 
 const app = express()
 const PORT = Number(process.env.PORT) || 3000
@@ -16,6 +21,11 @@ api.get('/health', (_req, res) => {
 })
 // api.use('/listings', listingsRouter)
 app.use('/api', api)
+api.use('/artists', artistsRouter)
+api.use('/venues', venuesRouter)
+api.use('/users', usersRouter)
+api.use('/search', searchRouter)
+api.use('/concerts', concertsRouter)
 
 // Catch-all error handler: always returns JSON
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {

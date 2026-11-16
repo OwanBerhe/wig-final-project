@@ -1,3 +1,4 @@
+import { requireAuth } from '../middleware/auth'
 import { Router } from 'express'
 import { db } from '../db'
 
@@ -13,7 +14,7 @@ router.get('/', async (_req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
   const { owner_id, name, address, city, open_to_talent, latitude, longitude } =
     req.body ?? {}
   if (!owner_id || !name || !address || !city) {

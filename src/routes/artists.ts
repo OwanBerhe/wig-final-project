@@ -1,3 +1,4 @@
+import { requireAuth } from '../middleware/auth'
 import { Router } from 'express'
 import { db } from '../db'
 
@@ -13,7 +14,7 @@ router.get('/', async (_req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
   const { user_id, name, bio } = req.body ?? {}
   if (!user_id || !name) {
     res.status(400).json({ error: 'user_id and name are required' })
