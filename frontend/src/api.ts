@@ -1,11 +1,16 @@
+export const TOKEN_KEY = 'token'
+
 export async function api<T = unknown>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
+  const token = localStorage.getItem(TOKEN_KEY)
+
   const res = await fetch('/api' + path, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(options.headers || {}),
     },
   })

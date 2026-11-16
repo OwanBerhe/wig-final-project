@@ -2,6 +2,15 @@ import express from 'express'
 import type { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 // import listingsRouter from './routes/listings'
+import artistsRouter from './routes/artists'
+import venuesRouter from './routes/venues'
+import usersRouter from './routes/users'
+import searchRouter from './routes/search'
+import concertsRouter from './routes/concerts-detail'
+
+import authRouter from './routes/auth'
+import conversationsRouter from './routes/conversations'
+import { attachRealtime } from './realtime'
 
 const app = express()
 const PORT = Number(process.env.PORT) || 3000
@@ -16,6 +25,13 @@ api.get('/health', (_req, res) => {
 })
 // api.use('/listings', listingsRouter)
 app.use('/api', api)
+api.use('/artists', artistsRouter)
+api.use('/venues', venuesRouter)
+api.use('/users', usersRouter)
+api.use('/search', searchRouter)
+api.use('/concerts', concertsRouter)
+api.use('/auth', authRouter)
+api.use('/conversations', conversationsRouter)
 
 // Catch-all error handler: always returns JSON
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
@@ -23,6 +39,9 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ error: err.message || 'Server error' })
 })
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)
 })
+
+// Live chat: WebSocket server at ws://localhost:PORT/ws
+attachRealtime(server)
