@@ -6,7 +6,8 @@ import artistsRouter from './routes/artists'
 import venuesRouter from './routes/venues'
 import usersRouter from './routes/users'
 import searchRouter from './routes/search'
-import concertsRouter from './routes/concerts-detail'
+import concertsRouter from './routes/concerts'
+import concertsDetailRouter from './routes/concerts-detail'
 
 import authRouter from './routes/auth'
 import conversationsRouter from './routes/conversations'
@@ -24,15 +25,14 @@ api.get('/health', (_req, res) => {
   res.json({ status: 'ok' })
 })
 api.use('/auth', authRouter)
+api.use('/concerts', concertsDetailRouter)
 api.use('/concerts', concertsRouter)
-app.use('/api', api)
 api.use('/artists', artistsRouter)
 api.use('/venues', venuesRouter)
 api.use('/users', usersRouter)
 api.use('/search', searchRouter)
-api.use('/concerts', concertsRouter)
-api.use('/auth', authRouter)
 api.use('/conversations', conversationsRouter)
+app.use('/api', api)
 
 // Catch-all error handler: always returns JSON
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {

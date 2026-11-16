@@ -79,7 +79,7 @@ router.post('/', requireAuth, async (req, res) => {
     res.status(404).json({ error: 'Venue not found' })
     return
   }
-  if (venue.owner_id !== req.user!.user_id) {
+  if (venue.owner_id !== req.user_id) {
     res.status(403).json({ error: 'You do not own this venue' })
     return
   }
